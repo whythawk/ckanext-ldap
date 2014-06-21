@@ -68,7 +68,7 @@ class LdapPlugin(p.SingletonPlugin):
 
     def check_ldap(self, password, ldap_user):
         user_dn = 'uid=%s,%s' % (ldap_user, self.base_dn)
-        con = ldap.initialize(self.server_url)
+        con = ldap.initialize(self.ldap_server)
         try:
             con.simple_bind_s(user_dn, password)
         except ldap.INVALID_CREDENTIALS:
