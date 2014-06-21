@@ -84,18 +84,21 @@ class LdapPlugin(p.SingletonPlugin):
         elif self.user_attr in attrs:
             sysadmin = False
         else:
-            msg =  self.no_auth_message or \
-                    'Sorry but your account is not authourised to ' + \
-                    'access this CKAN system.'
+            msg = self.no_auth_message or \
+                'Sorry but your account is not authourised to ' + \
+                'access this CKAN system.'
             return False, msg
-        details = con.search_s(self.base_dn, ldap.SCOPE_SUBTREE, filter,
-                             ['mail', 'displayName'])[0][1]
+        # get email and full name for user
+        details = con.search_s(
+            self.base_dn, ldap.SCOPE_SUBTREE, filter,
+            ['mail', 'displayName']
+        )[0][1]
         email = details['mail'][0]
         fullname = details['displayName'][0]
         return True, {
             'sysadmin': sysadmin,
-            'email' : email,
-            'fullname' : fullname,
+            'email': email,
+            'fullname': fullname,
         }
 
     def ldap(self, password, ldap_user):
