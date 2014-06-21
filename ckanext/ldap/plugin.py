@@ -126,7 +126,7 @@ class LdapPlugin(p.SingletonPlugin):
 
         session['ldap_user'] = ldap_user
         session.save()
-        return True
+        return True, None
 
     def login(self):
         username = t.request.POST.get('login')
