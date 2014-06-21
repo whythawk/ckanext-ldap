@@ -104,8 +104,8 @@ class LdapPlugin(p.SingletonPlugin):
 
         userobj = model.User.get(ldap_user)
         if userobj:
-            if userobj.sysadmin != result.get('sysadmin'):
-                userobj.sysadmin = result.get('sysadmin')
+            if userobj.sysadmin != msg.get('sysadmin'):
+                userobj.sysadmin = msg.get('sysadmin')
                 model.Session.add(userobj)
                 model.Session.commit()
         else:
