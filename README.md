@@ -16,7 +16,7 @@ Configuration
 
 `ldap` needs adding to the list of `ckan.plugins`
 
-These config options must be provided:
+__These config options must be provided:__
 
 `ckanext_ldap.server_url` the ldap server url eg `ldap://ldap_server`
 
@@ -29,3 +29,8 @@ These config options must be provided:
 `ckanext_ldap.admin_attr` eg `cn=CkanAdmins,ou=group,dc=example,dc=com`
 
 `ckanext_ldap.allow_anon_access` True/False can unlogged in users browse CKAN
+
+__Optional__
+
+`ckanext_ldap.no_auth_message` custom message shown when user has a valid
+account but not permission to access CKAN.

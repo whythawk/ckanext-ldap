@@ -56,6 +56,7 @@ class LdapPlugin(p.SingletonPlugin):
         self.search_attr = config.get('ckanext_ldap.search_attr')
         self.user_attr = config.get('ckanext_ldap.user_attr')
         self.admin_attr = config.get('ckanext_ldap.admin_attr')
+        self.no_auth_message = config.get('ckanext_ldap.no_auth_message')
         self.allow_anon_access = t.asbool(
             config.get('ckanext_ldap.allow_anon_access'))
 
@@ -83,9 +84,9 @@ class LdapPlugin(p.SingletonPlugin):
         elif self.user_attr in attrs:
             sysadmin = False
         else:
-            msg = 'Sorry but your account is not authourised to ' + \
-                  'access the MOPAC CKAN system.  For access please ' + \
-                  'contact the MOPAC team.'
+            msg =  self.no_auth_message or \
+                    'Sorry but your account is not authourised to ' + \
+                    'access this CKAN system.'
             return False, msg
         details = con.search_s(self.base_dn, ldap.SCOPE_SUBTREE, filter,
                              ['mail', 'displayName'])[0][1]
