@@ -11,7 +11,7 @@ setup(
     classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords='',
     author='Toby Dacre',
-    author_email='toby.dacre@whythawk.com',
+    author_email='tdacre@whythawk.com',
     url='http://github.com/whythawk/ckanext-ldap',
     license='AGPL3.0',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
