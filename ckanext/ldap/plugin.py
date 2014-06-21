@@ -71,8 +71,8 @@ class LdapPlugin(p.SingletonPlugin):
         con = ldap.initialize(self.ldap_server)
         try:
             con.simple_bind_s(user_dn, password)
-        except ldap.INVALID_CREDENTIALS:
-            msg = 'Sorry, your username or password entered incorrectly.'
+        except (ldap.INVALID_CREDENTIALS, ldap.NO_SUCH_OBJECT):
+            msg = 'Sorry, your username or password was entered incorrectly.'
             return False, msg
         filter = '(uid=%s)' % ldap_user
         attr = [self.search_attr]
