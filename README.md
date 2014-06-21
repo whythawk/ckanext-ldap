@@ -24,8 +24,8 @@ These config options must be provided:
 
 `ckanext_ldap.search_attr` eg `MyService`
 
-`ckanext_ldap.user_attr` eg `cn=CkanUsers`
+`ckanext_ldap.user_attr` eg `cn=CkanUsers,ou=group,dc=example,dc=com`
 
-`ckanext_ldap.admin_attr` eg `cn=CkanAdmins`
+`ckanext_ldap.admin_attr` eg `cn=CkanAdmins,ou=group,dc=example,dc=com`
 
 `ckanext_ldap.allow_anon_access` True/False can unlogged in users browse CKAN

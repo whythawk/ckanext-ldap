@@ -78,9 +78,9 @@ class LdapPlugin(p.SingletonPlugin):
         attr = [self.search_attr]
         results = con.search_s(self.base_dn, ldap.SCOPE_SUBTREE, filter, attr)
         attrs = results[0][1][self.search_attr]
-        if '%s,%s' % (self.admin_attr, self.base_dn) in attrs:
+        if self.admin_attr in attrs:
             sysadmin = True
-        elif '%s,%s' % (self.user_attr, self.base_dn) in attrs:
+        elif self.user_attr in attrs:
             sysadmin = False
         else:
             msg = 'Sorry but your account is not authourised to ' + \
