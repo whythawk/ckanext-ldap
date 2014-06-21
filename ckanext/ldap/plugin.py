@@ -113,9 +113,9 @@ class LdapPlugin(p.SingletonPlugin):
             data_dict = {
                 'password': self.make_password(),
                 'name': ldap_user,
-                'email': result.get('email'),
-                'fullname': result.get('fullname'),
-                'sysadmin': result.get('sysadmin'),
+                'email': msg.get('email'),
+                'fullname': msg.get('fullname'),
+                'sysadmin': msg.get('sysadmin'),
             }
             # Update the user schema to allow user creation
             user_schema = schema.default_user_schema()
