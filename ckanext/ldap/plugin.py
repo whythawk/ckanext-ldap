@@ -1,3 +1,4 @@
+import logging
 import uuid
 import ldap
 
@@ -9,6 +10,8 @@ import ckan.model as model
 import ckan.logic.schema as schema
 
 t = p.toolkit
+
+log = logging.getLogger(__name__)
 
 
 def _no_permissions(context, msg):
@@ -57,6 +60,12 @@ class LdapPlugin(p.SingletonPlugin):
         self.user_attr = config.get('ckanext_ldap.user_attr')
         self.admin_attr = config.get('ckanext_ldap.admin_attr')
         self.no_auth_message = config.get('ckanext_ldap.no_auth_message')
+        self.force_lower_username = t.asbool(
+            config.get('ckanext_ldap.force_lower_username', False)
+        )
+        self.debug = t.asbool(
+            config.get('ckanext_ldap.debug', False)
+        )
         self.allow_anon_access = t.asbool(
             config.get('ckanext_ldap.allow_anon_access'))
 
@@ -73,8 +82,18 @@ class LdapPlugin(p.SingletonPlugin):
         try:
             con.simple_bind_s(user_dn, password)
         except (ldap.INVALID_CREDENTIALS, ldap.NO_SUCH_OBJECT):
+            if self.debug:
+                log.info('failed login for username `%s` '
+                         'incorrect password or username')
             msg = 'Sorry, your username or password was entered incorrectly.'
             return False, msg
+        except Exception, e:
+            log.info('failed login for username `%s`\n' + str(e))
+            msg = ('Sorry, a problem occurred with your account '
+                   'please contact the administrator.')
+            return False, msg
+        if self.debug:
+            log.info('successful login for username `%s`')
         filter = '(uid=%s)' % ldap_user
         attr = [self.search_attr]
         results = con.search_s(self.base_dn, ldap.SCOPE_SUBTREE, filter, attr)
@@ -102,6 +121,8 @@ class LdapPlugin(p.SingletonPlugin):
         }
 
     def ldap(self, password, ldap_user):
+        if self.force_lower_username:
+            ldap_user = ldap_user.lower()
         result, msg = self.check_ldap(password, ldap_user)
         if not result:
             return False, msg

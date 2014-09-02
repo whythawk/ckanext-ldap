@@ -34,3 +34,8 @@ __Optional__
 
 `ckanext_ldap.no_auth_message` custom message shown when user has a valid
 account but not permission to access CKAN.
+
+`ckanext_ldap.force_lower_username` cause ldap usernames to be converted to lower
+case.
+
+`ckanext_ldap.debug` increase the logging of access attempts.
