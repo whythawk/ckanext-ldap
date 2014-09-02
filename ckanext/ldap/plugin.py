@@ -84,16 +84,16 @@ class LdapPlugin(p.SingletonPlugin):
         except (ldap.INVALID_CREDENTIALS, ldap.NO_SUCH_OBJECT):
             if self.debug:
                 log.info('failed login for username `%s` '
-                         'incorrect password or username')
+                         'incorrect password or username' % ldap_user)
             msg = 'Sorry, your username or password was entered incorrectly.'
             return False, msg
         except Exception, e:
-            log.info('failed login for username `%s`\n' + str(e))
+            log.info(('failed login for username `%s`\n' % ldap_user) + str(e))
             msg = ('Sorry, a problem occurred with your account '
                    'please contact the administrator.')
             return False, msg
         if self.debug:
-            log.info('successful login for username `%s`')
+            log.info('successful login for username `%s`' % ldap_user)
         filter = '(uid=%s)' % ldap_user
         attr = [self.search_attr]
         results = con.search_s(self.base_dn, ldap.SCOPE_SUBTREE, filter, attr)
